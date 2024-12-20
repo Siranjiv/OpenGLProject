@@ -83,6 +83,10 @@ void CreateTriangle()
 	obj1->CreateMesh(vertices, indices, 12, 12);
 	meshList.push_back(obj1);
 
+	Mesh* obj2 = new Mesh();
+	obj2->CreateMesh(vertices, indices, 12, 12);
+	meshList.push_back(obj2);
+
 }
 
 void AddShader(GLuint theProgram, const char* shaderCode, GLenum shaderType)
@@ -256,15 +260,16 @@ int main()
 		glm::mat4 model = glm::mat4(1.0f); // Identity matrix
 
 		model = glm::translate(model, glm::vec3(triOffset, 0.0f, -2.5f));
-		//model = glm::rotate(model, curAngle * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 1.0f));
-
-
-
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
-
 		meshList[0]->RenderMesh();
+
+		model = glm::mat4();
+		model = glm::translate(model, glm::vec3(-triOffset, 1.0f, -2.5f));
+		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 1.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[1]->RenderMesh();
 
 		glUseProgram(0);
 
